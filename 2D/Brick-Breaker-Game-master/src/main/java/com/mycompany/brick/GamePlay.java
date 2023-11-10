@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.mycompany.brick;
 
-import javax.swing.JPanel;
-import javax.swing.Timer;
+import javax.swing.*;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Graphics;
@@ -17,10 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-/**
- *
- * @author chinm
- */
+
 public class GamePlay extends JPanel implements KeyListener, ActionListener {
     
      boolean play = false;
@@ -45,8 +37,10 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
     }
     
      public void paint(Graphics g) {
-        g.setColor(Color.black);
-        g.fillRect(1, 1, 692, 592);
+         // Draw the background
+         ImageIcon backgroundImage = new ImageIcon("C:\\Users\\muazz\\OneDrive\\Desktop\\Computer Science (THU)\\CTS5\\CG\\Final_2D_Project\\BrickBreaker\\src\\2.jpg"); // Replace "background.jpg" with your image file
+         g.drawImage(backgroundImage.getImage(), 0, 0, null);
+
 
         map.draw((Graphics2D) g);
 

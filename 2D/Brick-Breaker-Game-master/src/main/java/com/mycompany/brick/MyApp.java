@@ -1,10 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.brick;
-
 import javax.swing.JFrame;
 import javax.swing.*;
 import java.awt.*;
@@ -30,7 +24,8 @@ public class MyApp extends JFrame implements ActionListener {
         // Load and set the background image
         ImageIcon backgroundImage = new ImageIcon("background.jpg"); // Replace "background.jpg" with your image file
         JLabel backgroundLabel = new JLabel(backgroundImage);
-        backgroundLabel.setBounds(0, 0, backgroundImage.getIconWidth(), backgroundImage.getIconHeight());
+
+        backgroundLabel.setBounds(0, 0, getWidth(), getHeight());
 
         // Initialize menuPanel with a vertical BoxLayout
         menuPanel = new JPanel();
@@ -88,7 +83,10 @@ public class MyApp extends JFrame implements ActionListener {
         return titleLabel;
     }
 
+
+
     @Override
+
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == playButton) {
             // Start the game when the "Play" button is clicked
@@ -99,17 +97,20 @@ public class MyApp extends JFrame implements ActionListener {
             gamePanel.setFocusTraversalKeysEnabled(false);
             gamePanel.play = true;
 
-            //The Game starts
+            // The Game starts
 
             JFrame obj = new JFrame();
             GamePlay gameplay = new GamePlay();
-            obj.setExtendedState(JFrame.MAXIMIZED_BOTH); // Set the frame to full screen
-            obj.setUndecorated(true); // Remove window decorations (title bar, etc.)
+
+            // Set the size of the new window (width, height)
+            obj.setSize(700, 600); // Customize the size as needed
+
+            // Set only the new window to be undecorated
+            obj.setUndecorated(true);
+
             obj.add(gameplay);
             obj.setVisible(true);
             obj.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
         } else if (e.getSource() == settingsButton) {
             // Handle settings (you can add settings functionality)
         } else if (e.getSource() == quitButton) {
@@ -120,14 +121,22 @@ public class MyApp extends JFrame implements ActionListener {
     }
 
 
+
+
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             MyApp app = new MyApp();
             app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            // Set the size of the window (width, height)
+            app.setSize(800, 600); // Customize the size as needed
+
             app.setVisible(true);
-            app.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximize the window
         });
     }
+
+
 
 }
 
