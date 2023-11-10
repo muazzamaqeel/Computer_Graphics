@@ -23,7 +23,7 @@ import java.awt.event.KeyListener;
  */
 public class GamePlay extends JPanel implements KeyListener, ActionListener {
     
-     private boolean play = false;
+     boolean play = false;
     private int score = 0;
     private int totalbricks = 21;
     private Timer Timer;
