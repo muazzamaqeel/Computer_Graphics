@@ -1,23 +1,28 @@
 
 package com.mycompany.brick;
 
+import javax.sound.sampled.Line;
 import javax.swing.*;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Graphics;
-import java.awt.Color;
-import java.awt.Font;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import java.io.File;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.prefs.Preferences;
 
 
 public class GamePlay extends JPanel implements KeyListener, ActionListener {
-    
-     boolean play = false;
+    boolean play = false;
+    private Toolkit toolkit;
+
     private int score = 0;
     private int totalbricks = 21;
+    public int playerSpeed = 5;  // Default speed
+
     private Timer Timer;
     private int delay = 8;
     private int playerX = 310;
@@ -26,6 +31,13 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
     private int ballXdir = -1;
     private int ballYdir = -2;
     private MapGenerator map;
+    private Preferences preferences;
+    private Clip hitPaddleSound;
+
+    public void setPlayerSpeed(int speed) {
+        this.playerSpeed = speed;
+    }
+
 
     public GamePlay() {
         map = new MapGenerator(3, 7);
@@ -34,6 +46,18 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
         setFocusTraversalKeysEnabled(false);
         Timer = new Timer(delay, this);
         Timer.start();
+
+        preferences = Preferences.userNodeForPackage(GamePlay.class);
+        int savedDelay = preferences.getInt("gameSpeed", 8);
+        setDelay(savedDelay);
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("C:\\programming\\GIT_REPO-Computer Graphics\\Computer_Graphics\\2D\\Brick-Breaker-Game-master\\beep.wav"));
+            hitPaddleSound = (Clip) AudioSystem.getLine(new Line.Info(Clip.class));
+            hitPaddleSound.open(audioInputStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
     
      public void paint(Graphics g) {
@@ -44,27 +68,27 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
 
         map.draw((Graphics2D) g);
 
-        g.setColor(Color.yellow);
+        g.setColor(Color.black);
         g.fillRect(0, 0, 3, 592);
         g.fillRect(0, 0, 692, 3);
         g.fillRect(691, 0, 3, 592);
 
-        g.setColor(Color.white);
+        g.setColor(Color.lightGray);
         g.setFont(new Font("serif", Font.BOLD, 25));
         g.drawString("" + score, 590, 30);
 
-        g.setColor(Color.yellow);
+        g.setColor(Color.white);
         g.fillRect(playerX, 550, 100, 8);
 
         //ball
-        g.setColor(Color.GREEN);
+        g.setColor(Color.white);
         g.fillOval(ballposX, ballposY, 20, 20);
 
         if (ballposY > 570) {
             play = false;
             ballXdir = 0;
             ballYdir = 0;
-            g.setColor(Color.red);
+            g.setColor(Color.white);
             g.setFont(new Font("serif", Font.BOLD, 30));
             g.drawString("    Game Over Score: " + score, 190, 300);
 
@@ -75,7 +99,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
             play = false;
             ballYdir = -2;
             ballXdir = -1;
-            g.setColor(Color.red);
+            g.setColor(Color.white);
             g.setFont(new Font("serif",Font.BOLD,30));
             g.drawString("    Game Over: "+score,190,300);
 
@@ -94,9 +118,12 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
     public void actionPerformed(ActionEvent e) {
         Timer.start();
 
+
         if (play) {
             if (new Rectangle(ballposX, ballposY, 20, 20).intersects(new Rectangle(playerX, 550, 100, 8))) {
                 ballYdir = -ballYdir;
+                hitPaddleSound.setFramePosition(0); // Reset to the beginning
+                hitPaddleSound.start();
             }
 
             A:
@@ -120,6 +147,10 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
                                 ballXdir = -ballXdir;
                             } else {
                                 ballYdir = -ballYdir;
+                            }
+
+                            if (ballYdir > 0 && ballrect.intersects(new Rectangle(playerX, 550, 100, 8))) {
+                                toolkit.beep();
                             }
                             break A;
                         }
@@ -191,17 +222,25 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
 
         }
 
-        public void moveRight ()
-        {
-            play = true;
-            playerX += 20;
-        }
-        public void moveLeft ()
-        {
-            play = true;
-            playerX -= 20;
-        }
-        
-    
-    
+    public void moveRight() {
+        play = true;
+        playerX += 20 * playerSpeed;  // Adjust speed based on playerSpeed
+    }
+
+    public void moveLeft() {
+        play = true;
+        playerX -= 20 * playerSpeed;  // Adjust speed based on playerSpeed
+    }
+
+    public void setDelay(int newDelay) {
+        this.delay = newDelay;
+        Timer.setDelay(newDelay);
+
+        // Save the game speed to preferences
+        preferences.putInt("gameSpeed", newDelay);
+    }
+
+
+
+
 }
