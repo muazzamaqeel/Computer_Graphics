@@ -169,7 +169,7 @@ public class MyApp extends JFrame implements ActionListener {
 
         } else if (e.getSource() == backToMainButton) {
             // Close the settings frame and go back to the main frame
-            settingsFrame.dispose();
+            settingsFrame.setVisible(false);
         } else if (e.getSource() == quitButton) {
             System.exit(0); // Exit the game when the "Quit" button is clicked
         }

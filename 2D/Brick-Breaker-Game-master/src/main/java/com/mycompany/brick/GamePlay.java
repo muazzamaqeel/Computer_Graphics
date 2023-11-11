@@ -22,6 +22,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
     private int score = 0;
     private int totalbricks = 21;
     public int playerSpeed = 5;  // Default speed
+    private boolean highScoreWindowShown = false; // Add this line
 
     private Timer Timer;
     private int delay = 8;
@@ -84,16 +85,24 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
         g.setColor(Color.white);
         g.fillOval(ballposX, ballposY, 20, 20);
 
-        if (ballposY > 570) {
-            play = false;
-            ballXdir = 0;
-            ballYdir = 0;
-            g.setColor(Color.white);
-            g.setFont(new Font("serif", Font.BOLD, 30));
-            g.drawString("    Game Over Score: " + score, 190, 300);
+         if (ballposY > 570 && !highScoreWindowShown) {
+             play = false;
+             ballXdir = 0;
+             ballYdir = 0;
+             g.setColor(Color.white);
+             g.setFont(new Font("serif", Font.BOLD, 30));
+             g.drawString("    Game Over Score: " + score, 190, 300);
 
-            g.setFont(new Font("serif", Font.BOLD, 30));
-            g.drawString("   Press Enter to Restart", 190, 340);
+             g.setFont(new Font("serif", Font.BOLD, 30));
+             g.drawString("   Press Enter to Restart", 190, 340);
+
+             highScoreWindowShown = true; // Set the flag to true
+
+             SwingUtilities.invokeLater(() -> {
+                 HighScoreWindow highScoreWindow = new HighScoreWindow(score);
+                 highScoreWindow.setVisible(true);
+             });
+
         }
         if(totalbricks == 0){
             play = false;
