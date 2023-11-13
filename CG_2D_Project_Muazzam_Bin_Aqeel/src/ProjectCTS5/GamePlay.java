@@ -99,7 +99,6 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
                 highScoreWindow.setVisible(true);
             });
         }
-
         // Display game over message and prompt to restart if all bricks are destroyed
         if(totalbricks == 0){
             play = false;
@@ -112,27 +111,20 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
             g.setFont(new Font("serif", Font.BOLD, 30));
             g.drawString("   Press Enter to Restart", 190, 340);
         }
-
         // Release system resources
         g.dispose();
     }
-
     // Method to handle actions triggered by the Timer
     @Override
     public void actionPerformed(ActionEvent e) {
         Timer.start();
-
         // Game logic
-        if (play) {
-            // Handle ball and paddle collision
+        if (play) {       // Handle ball and paddle collision
             if (new Rectangle(ballposX, ballposY, 20, 20).intersects(new Rectangle(playerX, 550, 100, 8))) {
                 ballYdir = -ballYdir;
-                // Play the paddle-hit sound
                 hitPaddleSound.setFramePosition(0);
-                hitPaddleSound.start();
-            }
-
-            // Check for collision with bricks and update score
+                hitPaddleSound.start();     // Play the paddle-hit sound
+            } // Check for collision with bricks and update score
             A:
             for (int i = 0; i < map.map_game.length; i++) {
                 for (int j = 0; j < map.map_game[0].length; j++) {
@@ -141,28 +133,23 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
                         int brickY = i * map.Blocks_Length + 50;
                         int bricksWidth = map.Blocks_Width;
                         int bricksHeight = map.Blocks_Length;
-
                         Rectangle rect = new Rectangle(brickX, brickY, bricksWidth, bricksHeight);
                         Rectangle ballrect = new Rectangle(ballposX, ballposY, 20, 20);
                         Rectangle brickrect = rect;
-
                         // Handle ball and brick collision
                         if (ballrect.intersects(brickrect)) {
                             map.Total_Blocks(0, i, j);
                             totalbricks--;
                             score += 5;
-
                             // Change ball direction based on collision point
                             if (ballposX + 19 <= brickrect.x || ballposX + 1 >= brickrect.x + bricksWidth) {
                                 ballXdir = -ballXdir;
                             } else {
                                 ballYdir = -ballYdir;
                             }
-
                             // Play sound if the ball hits the paddle
                             if (ballYdir > 0 && ballrect.intersects(new Rectangle(playerX, 550, 100, 8))) {
-                                toolkit.beep();
-                            }
+                                toolkit.beep();}
                             break A;
                         }
                     }
