@@ -71,10 +71,10 @@ public class MyApp extends JFrame implements ActionListener {
         fastSpeedButton.setBounds(100, 300, 150, 30);
         slowSpeedButton.setBounds(250, 300, 150, 30);
         backToMainButton.setBounds(400, 300, 150, 30);
+
         settingsFrame = new JFrame("Game Settings");
         settingsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        settingsFrame.setSize(700, 400);
-        settingsFrame.setUndecorated(true);
+        settingsFrame.setSize(700, 700);
         settingsFrame.setLayout(null);
         settingsFrame.add(fastSpeedButton);
         settingsFrame.add(slowSpeedButton);
@@ -91,7 +91,8 @@ public class MyApp extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        int selectedPlayerSpeed = 5;
+        int selectedPlayerSpeed;
+        GamePlay GameObj;
         if (e.getSource() == playButton) {
             this.remove(menuPanel);
             this.add(gamePanel);
@@ -101,12 +102,13 @@ public class MyApp extends JFrame implements ActionListener {
             gamePanel.play = true;
             this.dispose();
             JFrame instance1 = new JFrame();
-            GamePlay GameObj = new GamePlay();
+            GameObj = new GamePlay();
             instance1.setSize(700, 700);
             instance1.setResizable(false);
             instance1.add(GameObj);
             instance1.setVisible(true);
             instance1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         } else if (e.getSource() == settingsButton) {
             settingsFrame.setVisible(true);
         } else if (e.getSource() == fastSpeedButton) {
