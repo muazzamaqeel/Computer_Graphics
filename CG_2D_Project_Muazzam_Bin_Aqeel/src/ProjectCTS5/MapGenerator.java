@@ -5,13 +5,12 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 public class MapGenerator {
-    // 2D array to represent the game map
+    // 2D array Used for creating the map
     public int map_game[][];
-    // Width and height of individual bricks
     public int Blocks_Width;
     public int Blocks_Length;
 
-    // Constructor to initialize the map based on the given number of rows and columns
+    // Constructor to initialize
     public MapGenerator(int row, int col) {
         map_game = new int[row][col];
         for (int[] map1 : map_game) {

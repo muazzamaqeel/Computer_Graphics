@@ -29,8 +29,8 @@ public class MyApp extends JFrame implements ActionListener {
         JLayeredPane LayerObject = new JLayeredPane();
         setContentPane(LayerObject);
         gamePanel = new GamePlay();
-
-        ImageIcon backgroundImage = new ImageIcon("background.jpg");
+        String bg ="resources/2.jpg";
+        ImageIcon backgroundImage = new ImageIcon(bg);
         JLabel backgroundLabel = new JLabel(backgroundImage);
         backgroundLabel.setBounds(0, 0, getWidth(), getHeight());
         menuPanel = new JPanel();
