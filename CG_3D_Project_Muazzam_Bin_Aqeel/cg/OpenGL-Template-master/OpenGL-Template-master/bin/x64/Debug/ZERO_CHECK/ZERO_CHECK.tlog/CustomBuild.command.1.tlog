@@ -1,0 +1,10 @@
+^C:\PROGRAMMING\CG\OPENGL-TEMPLATE-MASTER\OPENGL-TEMPLATE-MASTER\BIN\CMAKEFILES\EC135C560BAE2B0218F7A4071B1CB40B\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/programming/cg/OpenGL-Template-master/OpenGL-Template-master -BC:/programming/cg/OpenGL-Template-master/OpenGL-Template-master/bin --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/programming/cg/OpenGL-Template-master/OpenGL-Template-master/bin/OpenGL-Template.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
